@@ -20,14 +20,28 @@
    - Result: successfully copied all four skills to the explicit local destination. Global Codex installation was not used.
 5. PowerShell validation of the four expected directories and their `SKILL.md` frontmatter.
    - Result: 4 skill directories and 73 copied files; validation passed.
+6. `git init -b main; git add implementation-plan.md implementation-process.md 20-ml-paper-writing; git commit -m "Set up ML paper writing skills for testing"`
+   - Result: initialized the local repository and created root commit `3c65971`.
+   - Problem: Git reported normal LF-to-CRLF working-copy warnings on Windows; the commit completed successfully.
+7. `gh repo create christian-hoang-04/ai-research-skills-test --public --source . --remote origin --push`
+   - Result: created the public repository and pushed `main` to `https://github.com/christian-hoang-04/ai-research-skills-test`.
 
 ## Files changed
 
-Files and directories will be listed here after the local setup completes.
+- `implementation-plan.md`: updated scope, assumptions, commands, and verification plan.
+- `implementation-process.md`: recorded execution notes and results.
+- `20-ml-paper-writing/academic-plotting/`: copied skill and references.
+- `20-ml-paper-writing/ml-paper-writing/`: copied skill, references, and paper templates.
+- `20-ml-paper-writing/presenting-conference-talks/`: copied skill and references.
+- `20-ml-paper-writing/systems-paper-writing/`: copied skill, references, and paper templates.
+- `.git/`: initialized local Git metadata and configured `origin` for the new public repository.
 
 ## Verification results
 
-Verification results will be recorded here after copying, local validation, commit, and remote push.
+- Local validation passed: all four scoped skill directories contain `SKILL.md` with frontmatter.
+- Local file count: 73 skill files, plus the two requested implementation notes.
+- Remote creation and initial push succeeded on `main`.
+- Final verification will confirm the remote tree, commit parity, and clean working tree.
 
 ## Problems, decisions, and follow-ups
 
