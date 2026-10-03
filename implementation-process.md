@@ -25,6 +25,9 @@
    - Problem: Git reported normal LF-to-CRLF working-copy warnings on Windows; the commit completed successfully.
 7. `gh repo create christian-hoang-04/ai-research-skills-test --public --source . --remote origin --push`
    - Result: created the public repository and pushed `main` to `https://github.com/christian-hoang-04/ai-research-skills-test`.
+8. Remote verification with `gh api repos/christian-hoang-04/ai-research-skills-test` and local Git status/log checks.
+   - Result: remote is public, uses `main`, contains all four expected `SKILL.md` entrypoints, and matches local `HEAD` at `387ac0a`.
+   - Result: working tree is clean.
 
 ## Files changed
 
@@ -41,9 +44,12 @@
 - Local validation passed: all four scoped skill directories contain `SKILL.md` with frontmatter.
 - Local file count: 73 skill files, plus the two requested implementation notes.
 - Remote creation and initial push succeeded on `main`.
-- Final verification will confirm the remote tree, commit parity, and clean working tree.
+- Remote tree contains all four expected skill entrypoints.
+- Local `HEAD` and `origin/main` both resolve to `387ac0afd0147b3415c129e0f17a0901b90346ad`.
+- Working tree is clean.
 
 ## Problems, decisions, and follow-ups
 
 - No blocking questions remain.
 - Follow-ups will record any limitations of testing skill files without globally installing them.
+- Limitation: local validation confirms structure and frontmatter only; it does not activate the skills in the Codex runtime because global installation was intentionally skipped.
