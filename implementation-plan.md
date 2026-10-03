@@ -48,3 +48,13 @@ After the requested change is clarified, I will update this plan if needed, crea
 - Verify no global Codex skill directories were modified.
 - Review the final file list/diff and remote repository state to ensure no unrelated changes were made.
 - Record commands, results, problems, decisions, and follow-ups in `implementation-process.md`.
+
+## Follow-up test plan
+
+The follow-up request is to actually test the four local skills. No blocking questions remain. I assume “test” means representative smoke tests of the executable workflows and included templates, using synthetic inputs and temporary files outside the repository. Credentialed or paid services will not be invoked without configured credentials; missing dependencies will be tested in an isolated temporary environment rather than installed globally.
+
+- Academic plotting: generate a grouped chart in PDF and PNG.
+- ML paper writing: compile the included NeurIPS template and exercise citation lookup/BibTeX paths.
+- Conference talks: compile a minimal Beamer presentation and create a minimal PPTX.
+- Systems paper writing: compile the included OSDI template and validate local references.
+- Record all results, warnings, limitations, and cleanup status in `implementation-process.md`.
