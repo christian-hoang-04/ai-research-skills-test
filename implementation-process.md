@@ -94,6 +94,10 @@
     - Finding: Habanero `Crossref().works(ids=..., select='title,DOI')` returned HTTP 400 in the installed client; the same lookup without `select` passed.
 16. `python -c "from google import genai; ..."` and environment-presence check.
     - Result: Google GenAI import passed. `GEMINI_API_KEY` is absent, so the paid/credentialed Gemini image-generation path was not invoked.
+17. `git add implementation-plan.md implementation-process.md; git commit -m "Test research skills workflows"; git push origin main`
+    - Result: committed the test findings as `8d07775` and pushed them to `origin/main`.
+18. Final remote/local verification with `gh api`, `git rev-parse`, `git status --short`, and `git show --stat`.
+    - Result: public remote and local `HEAD` match at `8d07775`; all four skill entrypoints are present; working tree is clean.
 
 ### Test cleanup and final state
 
