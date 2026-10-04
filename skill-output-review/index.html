@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Research Skills · Output Review</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --panel: #ffffff;
+      --ink: #172033;
+      --muted: #657089;
+      --line: #e3e8f1;
+      --accent: #5b5ce2;
+      --accent-soft: #eeefff;
+      --good: #16845b;
+      --good-soft: #e7f7ef;
+      --warn: #a66400;
+      --warn-soft: #fff4df;
+      --shadow: 0 18px 50px rgba(31, 42, 68, .08);
+    }
+
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    .shell { width: min(1440px, calc(100% - 40px)); margin: 0 auto; padding: 34px 0 48px; }
+    .eyebrow { color: var(--accent); font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { margin-bottom: 8px; font-size: clamp(30px, 4vw, 48px); line-height: 1.05; letter-spacing: -.04em; }
+    h2 { margin-bottom: 4px; font-size: 22px; letter-spacing: -.02em; }
+    h3 { margin-bottom: 6px; font-size: 15px; }
+    .intro { max-width: 760px; color: var(--muted); font-size: 16px; }
+    .summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 26px 0; }
+    .metric, .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); }
+    .metric { padding: 16px 18px; }
+    .metric strong { display: block; font-size: 28px; letter-spacing: -.04em; }
+    .metric span { color: var(--muted); font-size: 13px; }
+    .layout { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 18px; align-items: start; }
+    .sidebar { padding: 16px; position: sticky; top: 18px; }
+    .search { width: 100%; border: 1px solid var(--line); border-radius: 11px; padding: 10px 12px; color: var(--ink); outline: none; }
+    .search:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+    .skill-list { display: grid; gap: 8px; margin-top: 14px; }
+    .skill-button { display: grid; gap: 3px; width: 100%; border: 1px solid transparent; border-radius: 12px; padding: 12px; background: transparent; color: var(--ink); text-align: left; }
+    .skill-button:hover { background: #fafbff; border-color: var(--line); }
+    .skill-button.active { background: var(--accent-soft); border-color: #d8d9ff; }
+    .skill-name { font-weight: 750; }
+    .skill-meta { color: var(--muted); font-size: 12px; }
+    .status { display: inline-flex; align-items: center; gap: 6px; width: fit-content; border-radius: 999px; padding: 4px 9px; font-size: 12px; font-weight: 750; }
+    .status.good { background: var(--good-soft); color: var(--good); }
+    .status.warn { background: var(--warn-soft); color: var(--warn); }
+    .detail { min-width: 0; overflow: hidden; }
+    .detail-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; padding: 22px 24px; }
+    .detail-head p { margin-bottom: 0; color: var(--muted); }
+    .detail-body { display: grid; grid-template-columns: minmax(0, 1fr) 290px; min-height: 610px; border-top: 1px solid var(--line); }
+    .preview-wrap { min-width: 0; padding: 20px; background: #f8f9fc; }
+    .preview { display: grid; place-items: center; min-height: 560px; overflow: hidden; border: 1px solid var(--line); border-radius: 14px; background: #fff; }
+    .preview img { display: block; max-width: 100%; max-height: 650px; object-fit: contain; }
+    .preview iframe { width: 100%; height: 650px; border: 0; }
+    .download-preview { width: min(420px, 100%); padding: 28px; text-align: center; }
+    .file-icon { display: grid; place-items: center; width: 70px; height: 70px; margin: 0 auto 18px; border-radius: 20px; background: var(--accent-soft); color: var(--accent); font-weight: 850; letter-spacing: .05em; }
+    .download-preview p { color: var(--muted); }
+    .button, .artifact-link { display: inline-flex; align-items: center; justify-content: center; border: 1px solid #d9dbff; border-radius: 10px; padding: 9px 12px; background: var(--accent); color: #fff; font-weight: 750; text-decoration: none; }
+    .button.secondary { background: #fff; color: var(--accent); }
+    .preview-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .info { border-left: 1px solid var(--line); padding: 20px; }
+    .info-section + .info-section { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--line); }
+    .info-section p { color: var(--muted); font-size: 13px; }
+    .artifact-list { display: grid; gap: 8px; }
+    .artifact-link { justify-content: flex-start; gap: 8px; width: 100%; background: #fff; color: var(--ink); border-color: var(--line); font-size: 13px; text-align: left; }
+    .artifact-link.selected { background: var(--accent-soft); border-color: #d8d9ff; color: var(--accent); }
+    .artifact-size { margin-left: auto; color: var(--muted); font-size: 11px; font-weight: 500; }
+    .note { border-radius: 11px; padding: 11px 12px; background: var(--warn-soft); color: #76521a; font-size: 13px; }
+    .empty { padding: 30px; color: var(--muted); text-align: center; }
+    footer { margin-top: 18px; color: var(--muted); font-size: 12px; text-align: right; }
+    @media (max-width: 980px) { .layout { grid-template-columns: 1fr; } .sidebar { position: static; } .skill-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } .detail-body { grid-template-columns: 1fr; } .info { border-top: 1px solid var(--line); border-left: 0; } }
+    @media (max-width: 620px) { .shell { width: min(100% - 24px, 1440px); padding-top: 22px; } .summary { grid-template-columns: repeat(2, minmax(0, 1fr)); } .skill-list { grid-template-columns: 1fr; } .detail-head { display: block; } .detail-head .status { margin-top: 12px; } .preview { min-height: 380px; } .preview iframe { height: 480px; } }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <div class="eyebrow">Local review tool</div>
+    <h1>AI Research Skills · Output Review</h1>
+    <p class="intro">A read-only view of the real artifacts produced while checking the four local skills. Pick a skill, inspect its preview, and download the original output when needed.</p>
+
+    <section class="summary" aria-label="Review summary">
+      <div class="metric"><strong>4</strong><span>skills checked</span></div>
+      <div class="metric"><strong>4</strong><span>static checks passed</span></div>
+      <div class="metric"><strong>4</strong><span>local smoke tests passed</span></div>
+      <div class="metric"><strong>2</strong><span>API workflows skipped</span></div>
+    </section>
+
+    <div class="layout">
+      <aside class="panel sidebar" aria-label="Skill selector">
+        <input id="search" class="search" type="search" placeholder="Filter skills…" aria-label="Filter skills">
+        <div id="skill-list" class="skill-list"></div>
+      </aside>
+
+      <section id="detail" class="panel detail" aria-live="polite"></section>
+    </div>
+
+    <footer>Read-only · offline-friendly · source artifacts copied into <code>skill-output-review/outputs/</code></footer>
+  </main>
+
+  <script>
+    const skills = [
+      {
+        id: 'academic-plotting',
+        name: 'Academic plotting',
+        summary: 'Synthetic grouped benchmark chart',
+        staticResult: 'Passed · 4 Markdown files · 3 local links',
+        smokeResult: 'Passed · PNG and PDF generated',
+        note: 'Gemini diagram generation was skipped because it requires an API key. The local chart workflow was exercised.',
+        artifacts: [
+          { label: 'Grouped chart · PNG', type: 'image', src: 'outputs/academic-plotting/grouped.png', size: '38 KB' },
+          { label: 'Grouped chart · PDF', type: 'pdf', src: 'outputs/academic-plotting/grouped.pdf', size: '12 KB' }
+        ]
+      },
+      {
+        id: 'ml-paper-writing',
+        name: 'ML paper writing',
+        summary: 'NeurIPS template compilation',
+        staticResult: 'Passed · 11 Markdown files · 30 local links',
+        smokeResult: 'Passed · NeurIPS PDF compiled',
+        note: 'Citation API workflows were skipped because they require external APIs. The local LaTeX template workflow was exercised.',
+        artifacts: [
+          { label: 'NeurIPS template · PDF', type: 'pdf', src: 'outputs/ml-paper-writing/neurips-template.pdf', size: '22 KB' }
+        ]
+      },
+      {
+        id: 'presenting-conference-talks',
+        name: 'Presenting conference talks',
+        summary: 'Beamer PDF and editable PPTX',
+        staticResult: 'Passed · 2 Markdown files · 1 local link',
+        smokeResult: 'Passed · Beamer and PPTX generated',
+        note: 'The PPTX workflow was completed in an isolated temporary environment. No global dependency was installed.',
+        artifacts: [
+          { label: 'Beamer slides · PDF', type: 'pdf', src: 'outputs/presenting-conference-talks/beamer-slides.pdf', size: '25 KB' },
+          { label: 'Editable slides · PPTX', type: 'download', src: 'outputs/presenting-conference-talks/editable-slides.pptx', size: '34 KB' }
+        ]
+      },
+      {
+        id: 'systems-paper-writing',
+        name: 'Systems paper writing',
+        summary: 'OSDI template with BibTeX',
+        staticResult: 'Passed · 6 Markdown files · 11 local links',
+        smokeResult: 'Passed · OSDI PDF compiled',
+        note: 'The local OSDI template and BibTeX workflow were exercised. The template emitted only expected layout warnings.',
+        artifacts: [
+          { label: 'OSDI template · PDF', type: 'pdf', src: 'outputs/systems-paper-writing/osdi-template.pdf', size: '91 KB' }
+        ]
+      }
+    ];
+
+    let selectedId = skills[0].id;
+    let selectedArtifact = 0;
+
+    const list = document.querySelector('#skill-list');
+    const detail = document.querySelector('#detail');
+    const search = document.querySelector('#search');
+
+    function renderList() {
+      const query = search.value.trim().toLowerCase();
+      const visible = skills.filter(skill => `${skill.name} ${skill.summary}`.toLowerCase().includes(query));
+      list.innerHTML = visible.length ? visible.map(skill => `
+        <button class="skill-button ${skill.id === selectedId ? 'active' : ''}" data-skill="${skill.id}">
+          <span class="skill-name">${skill.name}</span>
+          <span class="skill-meta">${skill.summary}</span>
+          <span class="status good">✓ smoke passed</span>
+        </button>
+      `).join('') : '<div class="empty">No matching skills.</div>';
+      list.querySelectorAll('[data-skill]').forEach(button => button.addEventListener('click', () => {
+        selectedId = button.dataset.skill;
+        selectedArtifact = 0;
+        renderList();
+        renderDetail();
+      }));
+    }
+
+    function renderPreview(artifact) {
+      if (artifact.type === 'image') {
+        return `<img src="${artifact.src}" alt="${artifact.label}">`;
+      }
+      if (artifact.type === 'pdf') {
+        return `<iframe title="${artifact.label}" src="${artifact.src}"></iframe>`;
+      }
+      return `<div class="download-preview"><div class="file-icon">PPTX</div><h3>Editable PowerPoint file</h3><p>This format is ready to download and open in PowerPoint or another compatible editor.</p><a class="button" href="${artifact.src}" download>Download PPTX</a></div>`;
+    }
+
+    function renderDetail() {
+      const skill = skills.find(item => item.id === selectedId) || skills[0];
+      const artifact = skill.artifacts[selectedArtifact] || skill.artifacts[0];
+      detail.innerHTML = `
+        <header class="detail-head">
+          <div><div class="eyebrow">Selected skill</div><h2>${skill.name}</h2><p>${skill.summary}</p></div>
+          <span class="status good">✓ Static + smoke checks passed</span>
+        </header>
+        <div class="detail-body">
+          <div class="preview-wrap">
+            <div class="preview">${renderPreview(artifact)}</div>
+            <div class="preview-actions"><a class="button secondary" href="${artifact.src}" target="_blank" rel="noreferrer">Open original</a>${artifact.type !== 'image' ? `<a class="button secondary" href="${artifact.src}" download>Download file</a>` : ''}</div>
+          </div>
+          <aside class="info">
+            <section class="info-section"><h3>Artifacts</h3><div class="artifact-list">${skill.artifacts.map((item, index) => `<button class="artifact-link ${index === selectedArtifact ? 'selected' : ''}" data-artifact="${index}">${item.label}<span class="artifact-size">${item.size}</span></button>`).join('')}</div></section>
+            <section class="info-section"><h3>Check results</h3><p>${skill.staticResult}</p><p>${skill.smokeResult}</p></section>
+            <section class="info-section"><h3>Notes</h3><div class="note">${skill.note}</div></section>
+          </aside>
+        </div>
+      `;
+      detail.querySelectorAll('[data-artifact]').forEach(button => button.addEventListener('click', () => {
+        selectedArtifact = Number(button.dataset.artifact);
+        renderDetail();
+      }));
+    }
+
+    search.addEventListener('input', renderList);
+    renderList();
+    renderDetail();
+  </script>
+</body>
+</html>
